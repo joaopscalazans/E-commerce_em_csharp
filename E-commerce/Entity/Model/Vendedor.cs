@@ -7,7 +7,7 @@ public class Vendedor
 
     public int Id { get; private set; }
     public int IdUsuario { get; private set; }
-    public Usuario Usuario { get; set; }
+    public Usuario Usuario { get; set; } = null!;
     public string? Cnpj { get; set; }
     public string? Cpf { get; set; }
     public string NomeLoja { get; set; }

@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
     public DbSet<Cliente> Cliente {get; set;}
     public DbSet<Vendedor> Vendedor {get; set;}
     public  DbSet<Produto> Produto {get; set;}
+    public DbSet<Endereco> Endereco {get; set;}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -60,6 +61,25 @@ public class AppDbContext : DbContext
                 .HasForeignKey(p => p.IdVendedor)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+        });
+        modelBuilder.Entity<Endereco>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Rua).IsRequired().HasMaxLength(150);
+            entity.Property(e => e.Numero).IsRequired().HasMaxLength(20);
+            entity.Property(e => e.Bairro).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.Cep).IsRequired().HasMaxLength(8);
+            entity.Property(e => e.Cidade).IsRequired().HasMaxLength(100);
+            entity.Property(e => e.Estado).IsRequired().HasMaxLength(2);
+
+            entity.Property(e => e.Tipo).HasMaxLength(30).IsRequired(false);
+            entity.Property(e => e.Complemento).HasMaxLength(100).IsRequired(false);
+
+            entity.HasOne(e => e.Usuario)
+                .WithMany()
+                .HasForeignKey(e => e.IdUsuario)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 
