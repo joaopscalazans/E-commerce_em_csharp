@@ -10,6 +10,7 @@ public class AppDbContext : DbContext
     public DbSet<Usuario> Usuario {get; set;}
     public DbSet<Cliente> Cliente {get; set;}
     public DbSet<Vendedor> Vendedor {get; set;}
+    public  DbSet<Produto> Produto {get; set;}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -47,6 +48,18 @@ public class AppDbContext : DbContext
                 .HasForeignKey<Vendedor>(v => v.IdUsuario)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+        modelBuilder.Entity<Produto>(entity =>
+        {
+            entity.Property(p => p.Nome).IsRequired().HasMaxLength(100);
+            entity.Property(p => p.Descricao).HasMaxLength(255);
+            entity.Property(p => p.Preco).IsRequired().HasColumnType("decimal(18,2)");
+
+            entity.HasOne(p => p.Vendedor)
+                .WithMany(v => v.Produtos)
+                .HasForeignKey(p => p.IdVendedor)
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
         });
     }
 

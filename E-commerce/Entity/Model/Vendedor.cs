@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace E_commerce.Entity.Model;
 
 public class Vendedor
@@ -9,6 +11,9 @@ public class Vendedor
     public string? Cnpj { get; set; }
     public string? Cpf { get; set; }
     public string NomeLoja { get; set; }
+    
+    [JsonIgnore]
+    public List<Produto> Produtos { get; set; }
     
     public Vendedor()
     {}
