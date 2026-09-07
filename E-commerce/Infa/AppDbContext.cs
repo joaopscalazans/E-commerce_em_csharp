@@ -12,6 +12,8 @@ public class AppDbContext : DbContext
     public DbSet<Vendedor> Vendedor {get; set;}
     public  DbSet<Produto> Produto {get; set;}
     public DbSet<Endereco> Endereco {get; set;}
+    public DbSet<Pedido> Pedido {get; set;}
+    public DbSet<ItemPedido> ItemPedido {get; set;}
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -64,7 +66,6 @@ public class AppDbContext : DbContext
         });
         modelBuilder.Entity<Endereco>(entity =>
         {
-            entity.HasKey(e => e.Id);
             entity.Property(e => e.Rua).IsRequired().HasMaxLength(150);
             entity.Property(e => e.Numero).IsRequired().HasMaxLength(20);
             entity.Property(e => e.Bairro).IsRequired().HasMaxLength(100);
@@ -80,6 +81,36 @@ public class AppDbContext : DbContext
                 .HasForeignKey(e => e.IdUsuario)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+        modelBuilder.Entity<Pedido>(entity =>
+        {
+            entity.Property(p => p.DataPedido).IsRequired();
+            entity.Property(p => p.ValorTotal).IsRequired().HasColumnType("decimal(18,2)");
+            entity.HasOne(p => p.Endereco)
+                .WithMany()
+                .HasForeignKey(p => p.IdEndereco)
+                .IsRequired().OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(p => p.Cliente)
+                .WithMany(c => c.Pedidos)
+                .HasForeignKey(p => p.IdCliente)
+                .IsRequired();
+        });
+        modelBuilder.Entity<ItemPedido>(entity =>
+        {
+            entity.Property(ip => ip.PrecoUnitario).IsRequired().HasColumnType("decimal(18,2)");
+            entity.Property(ip => ip.Quantidade).IsRequired();
+            entity.HasOne(ip => ip.Pedido)
+                .WithMany(p => p.Itens)
+                .HasForeignKey(ip => ip.IdPedido);
+            entity.HasOne(ip => ip.Produto)
+                .WithMany()
+                .HasForeignKey(ip => ip.IdProduto);
+
+            entity.ToTable(t =>
+            {
+                t.HasCheckConstraint("CK_Quantidade_MaiorQueZero", "\"Quantidade\" > 0");
+                t.HasCheckConstraint("CK_PrecoUnitario_MaiorQueZero", "\"PrecoUnitario\" > 0");
+            });
         });
     }
 

@@ -17,7 +17,7 @@ public class Endereco
     
     public Endereco(){}
 
-    public Endereco(Usuario usuario,
+    public Endereco(int idUsuario,
         string rua,
         string numero,
         string bairro,
@@ -27,8 +27,7 @@ public class Endereco
         string tipo,
         string? complemento)
     {
-        IdUsuario = usuario.Id;
-        Usuario = usuario;
+        IdUsuario = idUsuario;
         Rua = rua;
         Numero = numero;
         Bairro = bairro;

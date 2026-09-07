@@ -108,6 +108,69 @@ namespace E_commerce.Migrations
                     b.ToTable("Endereco");
                 });
 
+            modelBuilder.Entity("E_commerce.Entity.Model.ItemPedido", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("IdPedido")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("IdProduto")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("PrecoUnitario")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int>("Quantidade")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdPedido");
+
+                    b.HasIndex("IdProduto");
+
+                    b.ToTable("ItemPedido", t =>
+                        {
+                            t.HasCheckConstraint("CK_PrecoUnitario_MaiorQueZero", "\"PrecoUnitario\" > 0");
+
+                            t.HasCheckConstraint("CK_Quantidade_MaiorQueZero", "\"Quantidade\" > 0");
+                        });
+                });
+
+            modelBuilder.Entity("E_commerce.Entity.Model.Pedido", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("DataPedido")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<int>("IdCliente")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("IdEndereco")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("ValorTotal")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IdCliente");
+
+                    b.HasIndex("IdEndereco");
+
+                    b.ToTable("Pedido");
+                });
+
             modelBuilder.Entity("E_commerce.Entity.Model.Produto", b =>
                 {
                     b.Property<int>("Id")
@@ -233,6 +296,44 @@ namespace E_commerce.Migrations
                     b.Navigation("Usuario");
                 });
 
+            modelBuilder.Entity("E_commerce.Entity.Model.ItemPedido", b =>
+                {
+                    b.HasOne("E_commerce.Entity.Model.Pedido", "Pedido")
+                        .WithMany("Itens")
+                        .HasForeignKey("IdPedido")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("E_commerce.Entity.Model.Produto", "Produto")
+                        .WithMany()
+                        .HasForeignKey("IdProduto")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pedido");
+
+                    b.Navigation("Produto");
+                });
+
+            modelBuilder.Entity("E_commerce.Entity.Model.Pedido", b =>
+                {
+                    b.HasOne("E_commerce.Entity.Model.Cliente", "Cliente")
+                        .WithMany("Pedidos")
+                        .HasForeignKey("IdCliente")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("E_commerce.Entity.Model.Endereco", "Endereco")
+                        .WithMany()
+                        .HasForeignKey("IdEndereco")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+
+                    b.Navigation("Endereco");
+                });
+
             modelBuilder.Entity("E_commerce.Entity.Model.Produto", b =>
                 {
                     b.HasOne("E_commerce.Entity.Model.Vendedor", "Vendedor")
@@ -253,6 +354,16 @@ namespace E_commerce.Migrations
                         .IsRequired();
 
                     b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("E_commerce.Entity.Model.Cliente", b =>
+                {
+                    b.Navigation("Pedidos");
+                });
+
+            modelBuilder.Entity("E_commerce.Entity.Model.Pedido", b =>
+                {
+                    b.Navigation("Itens");
                 });
 
             modelBuilder.Entity("E_commerce.Entity.Model.Vendedor", b =>

@@ -5,7 +5,7 @@ namespace E_commerce.Entity.Builder;
 
     public class EnderecoBuilder
     {
-        private Usuario Usuario;
+        private int IdUsuario;
         private string _rua = string.Empty;
         private string _numero = string.Empty;
         private string _bairro = string.Empty;
@@ -15,9 +15,9 @@ namespace E_commerce.Entity.Builder;
         private string _estado = string.Empty;
         private string _tipo = string.Empty;
 
-        public EnderecoBuilder ComUsuario(Usuario usuario)
+        public EnderecoBuilder ComUsuario(int idUsuario)
         {
-            this.Usuario = Usuario;
+            IdUsuario = idUsuario;
             return this;
         }
 
@@ -49,6 +49,6 @@ namespace E_commerce.Entity.Builder;
             if (string.IsNullOrWhiteSpace(_cep))
                 throw new InvalidOperationException("O CEP é obrigatório para construir o endereço.");
 
-            return new Endereco(Usuario, _rua, _numero, _bairro, _cep, _cidade, _estado, _tipo, _complemento);
+            return new Endereco(IdUsuario, _rua, _numero, _bairro, _cep, _cidade, _estado, _tipo, _complemento);
         }
     }

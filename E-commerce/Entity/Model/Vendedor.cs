@@ -13,16 +13,14 @@ public class Vendedor
     public string NomeLoja { get; set; }
     
     [JsonIgnore]
-    public List<Produto> Produtos { get; set; }
+    public ICollection<Produto> Produtos { get; set; }
     
     public Vendedor()
     {}
 
-    public Vendedor(Usuario usuario, string cnpj, string cpf, string nomeLoja)
+    public Vendedor(int idUsuario, string cnpj, string cpf, string nomeLoja)
     {
-        Id = usuario.Id;
-        IdUsuario = usuario.Id;
-        Usuario = usuario;
+        IdUsuario = idUsuario;
         Cnpj = cnpj;
         Cpf = cpf;
         NomeLoja = nomeLoja;

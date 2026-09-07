@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace E_commerce.Entity.Model;
 
 public class Cliente
@@ -7,15 +9,15 @@ public class Cliente
     public Usuario Usuario { get; set; } = null!;
     public string Cpf { get; set; }
     public DateTime DataNascimento { get; set; }
-    
+    [JsonIgnore]
+    public ICollection<Pedido> Pedidos { get; set; } = new List<Pedido>();
     public Cliente ()
     {
     }
 
-    public Cliente(Usuario usuario, string cpf, DateTime dataNascimento)
+    public Cliente(int idUsuario, string cpf, DateTime dataNascimento)
     {
-        IdUsuario = usuario.Id;
-        Usuario = usuario;
+        IdUsuario = idUsuario;
         Cpf = cpf;
         DataNascimento = dataNascimento;      
     }
