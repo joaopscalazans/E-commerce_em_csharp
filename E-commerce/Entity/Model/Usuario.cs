@@ -9,5 +9,13 @@ public class Usuario
     public string Email { get; set; }
     public string Senha { get; private set; }
     public TipoUsuario TipoUsuario {get; private set;}
-    
+
+    public Usuario(){}
+    public Usuario(string nome, string email,string senha, TipoUsuario tipoUsuario)
+    {
+        Nome = nome;
+        Email = email;
+        TipoUsuario = tipoUsuario;
+        Senha = senha;
+    }
 }

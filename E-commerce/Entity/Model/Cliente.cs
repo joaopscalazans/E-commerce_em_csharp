@@ -15,9 +15,9 @@ public class Cliente
     {
     }
 
-    public Cliente(int idUsuario, string cpf, DateTime dataNascimento)
+    public Cliente(Usuario usuario, string cpf, DateTime dataNascimento)
     {
-        IdUsuario = idUsuario;
+        Usuario = usuario;
         Cpf = cpf;
         DataNascimento = dataNascimento;      
     }

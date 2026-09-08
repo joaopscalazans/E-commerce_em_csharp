@@ -18,9 +18,9 @@ public class Vendedor
     public Vendedor()
     {}
 
-    public Vendedor(int idUsuario, string cnpj, string cpf, string nomeLoja)
+    public Vendedor(Usuario usuario, string cnpj, string cpf, string nomeLoja)
     {
-        IdUsuario = idUsuario;
+        Usuario = usuario;
         Cnpj = cnpj;
         Cpf = cpf;
         NomeLoja = nomeLoja;

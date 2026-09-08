@@ -85,7 +85,6 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Pedido>(entity =>
         {
             entity.Property(p => p.DataPedido).IsRequired();
-            entity.Property(p => p.ValorTotal).IsRequired().HasColumnType("decimal(18,2)");
             entity.HasOne(p => p.Endereco)
                 .WithMany()
                 .HasForeignKey(p => p.IdEndereco)

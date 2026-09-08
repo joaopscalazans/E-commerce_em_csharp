@@ -159,9 +159,6 @@ namespace E_commerce.Migrations
                     b.Property<int>("IdEndereco")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("ValorTotal")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("IdCliente");

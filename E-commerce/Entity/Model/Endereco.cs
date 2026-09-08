@@ -1,10 +1,12 @@
+using System.Text.Json.Serialization;
+
 namespace E_commerce.Entity.Model;
 
 public class Endereco
 {
     public int Id { get; set; }
     public int IdUsuario { get; private set; }
-    
+    [JsonIgnore]
     public Usuario Usuario { get; set; } = null!;
     public string Rua  { get; set; } = string.Empty;
     public string Numero { get; set; }  = string.Empty;
